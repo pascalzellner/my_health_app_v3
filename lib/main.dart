@@ -45,7 +45,9 @@ class MyHomePage extends ConsumerWidget {
             subtitle: Text(device.remoteId.toString()),
             trailing: IconButton(
               onPressed: ()async{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>DeviceAnalyseView(device: device)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DeviceAnalyseView(device: device))).then((value) async {
+                  await device.disconnect();
+                });
               }, 
               icon: const Icon(Icons.connect_without_contact,color: Colors.deepOrange,)
             ),
