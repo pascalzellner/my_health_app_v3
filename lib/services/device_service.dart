@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,7 +68,7 @@ class DeviceService {
       _isrrAvailableStreamController.add(rrAvailable ? 1 : 0);//push rrAvailable to the stream
       _isContactSupportedStreamController.add(iscontactSupported ? 1 : 0);//push iscontactSupported to the stream
       _isEnergyExpendedStreamController.add(energyExpendedPresent ? 1 : 0);//push energyExpendedPresent to the stream
-      print('16Bit: $is16Bit, RRIntervals: $rrAvailable, ContactSupported: $iscontactSupported, EnergyExpended: $energyExpendedPresent');
+     
       if(iscontactSupported){//if the contact is supported
         _contactDetectedStreamController.add(contactValue ? 1 : 0);//push the contact value to the stream
       }
@@ -110,8 +111,17 @@ class DeviceService {
     _rrDataStreamController.add(0);
     _contactDetectedStreamController.add(0);
     _energyExpendedStreamController.add(0);
+    _isContactSupportedStreamController.add(0);
+  }
 
-    print('NOTIFYVALUE EST DÉSACTIVÉ ET STREAM RÉINITIALISÉ');
+  void dispose() {
+    _hrDataStreamController.close();
+    _rrDataStreamController.close();
+    _energyExpendedStreamController.close();
+    _contactDetectedStreamController.close();
+    _isContactSupportedStreamController.close();
+    _isrrAvailableStreamController.close();
+    _isEnergyExpendedStreamController.close();
   }
 
 }

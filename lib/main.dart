@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ayur Health App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
@@ -33,7 +33,7 @@ class MyHomePage extends ConsumerWidget {
     final btleDevices = ref.watch(btleDeviceProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liste des HR Devices'),
+        title: const Text('HR Devices List',style: TextStyle(color:Colors.white),),
         backgroundColor: Colors.cyan,
       ),
       body: ListView.builder(

@@ -13,8 +13,6 @@ class BtleDevicesNotifier extends StateNotifier<List<BluetoothDevice>> {
 void _checkPermissionsAndScan() async {
     if (await _requestPermissions()) {
       _scanForDevices();
-    } else {
-      // Handle the case where permissions are not granted
     }
 }
 
@@ -29,11 +27,12 @@ Future<bool> _requestPermissions() async {
 }
 
   void _scanForDevices() async {
-    await FlutterBluePlus.startScan(withServices: [Guid('0000180d-0000-1000-8000-00805f9b34fb')]);
+    //await FlutterBluePlus.startScan();//scan all devices
+    await FlutterBluePlus.startScan(withServices: [Guid('0000180d-0000-1000-8000-00805f9b34fb')]);//scab only devices with heart rate service
     FlutterBluePlus.scanResults.listen((results) async {
       for (ScanResult result in results) {
         if (!state.any((d) => d.remoteId == result.device.remoteId)) {
-          state = [...state, result.device];
+          state = [...state, result.device];//add the device to the list
       }
       }
     });
@@ -41,12 +40,11 @@ Future<bool> _requestPermissions() async {
 
   @override
   void dispose() {
-    FlutterBluePlus.stopScan();
+    FlutterBluePlus.stopScan();//stop the scan before disposing the notifier
     super.dispose();
-    print('btleDevicesNotifier disposed');
   }
 
-  void refresh() {
+  void refresh() {//to refresh the list of devices
     state = [];
     _checkPermissionsAndScan();
   }
